@@ -1,0 +1,43 @@
+﻿@model IEnumerable<App.Data.Entities.CartEntity>
+
+@{
+    ViewData["Title"] = "My Carts";
+}
+
+<h2>My Carts</h2>
+
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>    
+                <th>Cart ID</th>
+                <th>Cart Name</th>
+                <th>Created At</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cart in Model)
+            {
+                <tr>
+                    <td>@cart.Id</td>
+                    <td>@cart.Name</td>
+                    <td>@cart.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>
+                        <a asp-controller="Cart" asp-action="Detail" asp-route-id="@cart.Id" class="btn btn-primary">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>You don't have any carts yet.</p>
+}
+
+<a asp-controller="Cart" asp-action="New" class="btn btn-success">Create New Cart</a>
+
+

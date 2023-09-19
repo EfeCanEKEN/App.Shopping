@@ -1,0 +1,61 @@
+﻿@model IEnumerable<App.Data.Entities.ProductEntity>
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h4>Create a New Cart:</h4>
+            <form asp-controller="Cart" asp-action="New" method="post">
+                <div class="form-group">
+                    <label for="cartName">Enter Cart Name:</label>
+                    <input type="text" id="cartName" name="cartName" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-success">Create Cart</button>
+            </form>
+        </div>
+    </div>
+
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card card-frame">
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">Price: @product.Price.ToString("C")</p>
+                    <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                        <div class="form-group">
+                            <label class="mb-2" for="quantity">Quantity:</label>
+                            <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="cartId">Select Cart:</label>
+                            <select name="cartId" id="cartId" class="form-control">
+
+                                @if (ViewBag.UserCarts != null)
+                                {
+                                    foreach (var cart in ViewBag.UserCarts)
+                                    {
+                                        <option value="@cart.Id">@cart.Name</option>
+                                    }
+                                }
+                            
+                            </select>
+                        </div>
+                        <input type="hidden" name="productId" value="@product.Id" />
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary mt-3 ms-auto">Add to Cart</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
